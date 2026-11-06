@@ -9,16 +9,15 @@ from dotenv import load_dotenv
 
 
 today = date.today()
-load_dotenv()
-DATABASE_URL = os.getenv("DATABASE_URL")
-conn = psycopg.connect(DATABASE_URL)
-cursor = conn.cursor()
 def fill_db():
+    load_dotenv()
+    DATABASE_URL = os.getenv("DATABASE_URL")
+    conn = psycopg.connect(DATABASE_URL)
+    cursor = conn.cursor()
     #this open database and delete prev values
     cursor.execute("""
         TRUNCATE TABLE "routInfo" RESTART IDENTITY
     """)
-    conn.commit()
 
     #logic for filling DB
     departureHub = "Madrid"
@@ -31,18 +30,18 @@ def fill_db():
             costaLink = generateCostaLink(destinations[i])
             verdeBus = generateVerdeBus(destinations[i])
             nocheVia = generateNocheVia(destinations[i])
-            sqlInsertion(solRutaDict)
-            sqlInsertion(caminoExpress)
-            sqlInsertion(costaLink)
-            sqlInsertion(verdeBus)
-            sqlInsertion(nocheVia)
+            sqlInsertion(solRutaDict, cursor)
+            sqlInsertion(caminoExpress, cursor)
+            sqlInsertion(costaLink, cursor)
+            sqlInsertion(verdeBus, cursor)
+            sqlInsertion(nocheVia, cursor)
     errors = transferErrorRecordsToDatabase()
     for error in errors:
-        sqlInsertion(error)
+        sqlInsertion(error, cursor)
     conn.commit()
     conn.close()
 
-def sqlInsertion(dict):
+def sqlInsertion(dict, cursor):
     try:
         cursor.execute(
             """INSERT INTO "routInfo" (
