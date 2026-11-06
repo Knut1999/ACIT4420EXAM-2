@@ -1,8 +1,24 @@
 <!DOCTYPE html>
 <html>
     <body>
-
+        
         <h1>BUS BIDDER</h1>
+        <br>
+        <h2 style="font-size: 16px;">
+            Click button below to generate a new database, it will take some time to regenerate (1-2 minutes)
+        </h2>
+        <button type="button" id="newDatabase" onclick="newDatabase()">
+            Create new database
+        </button>
+        <br>
+        <h2 style="font-size: 16px;">
+            Look at database
+        </h2>
+        <button type="button" id="openDB" onclick="window.location.href='database.html'">
+            Look at database
+        </button> 
+        <br>
+        <br>
         <label for="destinations">Travel from Barcelona to -> </label>
         <select name="destinations" id="destinations">
             <option value="Alicante">Alicante</option>
@@ -21,10 +37,9 @@
             <option value="Valencia">Valencia</option>
             <option value="Zaragoza">Zaragoza</option>
         </select>
-        <br>
+
         <label for="budgetType">Choose budget type</label>
         <select name="budgetType" id="budgetType" onchange="moveSliders()">
-        <script src="moveSliders.js"></script>
             <option value="Budget traveller">Budget traveller</option>
             <option value="Business traveller">Business traveller</option>
             <option value="Flexibility-focused tourist">Flexibility-focused tourist</option>
@@ -60,7 +75,6 @@
 
         <br>
         <button type="button" value="Submit" onclick="search()">Search</button>
-        <script src="search.js"></script>
 
         <br>
          <!--https://www.youtube.com/watch?v=XmdOZ5NSqb8&list=PL-51WBLyFTg1l3K0aTH0uX6PzgaLfzJBK used as insperation-->
@@ -93,9 +107,9 @@
             <tbody id="offersTable"></tbody>
         </table>
 
-            <tbody id="myTable">
-                
-            </tbody>
-        </table>
+        <script src="newDB.js"></script>
+        <script src="showDB.js"></script>
+        <script src="search.js"></script>
+        <script src="moveSliders.js"></script>
     </body>
 </html>
