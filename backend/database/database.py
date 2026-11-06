@@ -1,14 +1,20 @@
+import os
 import sqlite3
+from dotenv import load_dotenv
+import psycopg
+
 class Database:
     db_path = "database/dataset.db"
 
     @staticmethod
     def getCompanies():
         #https://docs.python.org/3/library/sqlite3.html?utm used this link as insperation
-        con = sqlite3.connect(Database.db_path)
+        load_dotenv()
+        NEON_URL = os.getenv("NEON_URL")
+        con = psycopg.connect(NEON_URL)
         cur = con.cursor()
         #"https://www.sqlitetutorial.net/sqlite-python/sqlite-python-select/" to know how to get things from sql db
-        res = cur.execute("SELECT company FROM routInfo")
+        res = cur.execute('SELECT company FROM "routInfo"')
         companies_db = res.fetchall()
         con.close()
         companies = set()
@@ -19,12 +25,14 @@ class Database:
     @staticmethod
     def getIdFromCompanyName(companyName):
         #https://docs.python.org/3/library/sqlite3.html?utm used this link as insperation
-        con = sqlite3.connect(Database.db_path)
+        load_dotenv()
+        NEON_URL = os.getenv("NEON_URL")
+        con = psycopg.connect(NEON_URL)
         cur = con.cursor()
         res = cur.execute("""
             SELECT id 
-            FROM routInfo 
-            WHERE company = ?"""
+            FROM "routInfo" 
+            WHERE company = %s"""
             , (companyName,)
         )
         companies_db = res.fetchall()
@@ -37,13 +45,15 @@ class Database:
     @staticmethod
     def getCompanyRouts(companyName, destination):
         #https://docs.python.org/3/library/sqlite3.html?utm used this link as insperation
-        con = sqlite3.connect(Database.db_path)
+        load_dotenv()
+        NEON_URL = os.getenv("NEON_URL")
+        con = psycopg.connect(NEON_URL)
         cur = con.cursor()
         res = cur.execute("""
             SELECT * 
-            FROM routInfo 
-            WHERE company = ?
-            AND destination = ?"""
+            FROM "routInfo" 
+            WHERE company = %s
+            AND destination = %s"""
             , (companyName, destination)
         )
         routs = res.fetchall()

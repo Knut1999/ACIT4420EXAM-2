@@ -6,3 +6,5 @@ ids,errortype,error
 "[226, 239]",Invalid company name,NONAME
 "[226, 239]",Invalid company name,NONAME
 "[226, 239]",Invalid company name,NONAME
+"[296, 309]",Invalid company name,NONAME
+307,['Invalid number of Environmental measure'],[-3]

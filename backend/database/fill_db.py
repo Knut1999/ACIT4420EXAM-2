@@ -1,13 +1,19 @@
-from datetime import date, datetime, timedelta
-import random
-import sqlite3
-import csv
+from datetime import date
+import psycopg
 from database.generateData import generateCaminoExpress, generateCostaLink, generateNocheVia, generateSolRuta, generateVerdeBus, transferErrorRecordsToDatabase
 from offer.standaloneFunctions import getDestinations, getTravelTimes, getTravelPrices
-#existing sql, we delete existing data here, and generate new below
-conn = sqlite3.connect("database/dataset.db")
+import os
+import psycopg
+from dotenv import load_dotenv
+
+load_dotenv()
+
+NEON_URL = os.getenv("NEON_URL")
+conn = psycopg.connect(NEON_URL)
 cursor = conn.cursor()
-cursor.execute("DELETE FROM routInfo")
+psycopg.connect(NEON_URL)
+cursor = conn.cursor()
+cursor.execute('DELETE FROM "routInfo"')
 conn.commit()
 
 today = date.today()
@@ -35,12 +41,12 @@ def fill_db():
 def sqlInsertion(dict):
     try:
         cursor.execute(
-            """INSERT INTO routInfo (
+            """INSERT INTO "routInfo" (
                 company, destination, travel_date, departure, duration,
                 arrival_time, price, transfers, luggage_allowance,
                 changeability, refundability, available_seats,
                 customer_rating, environmental_measure
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
             (dict["company"], dict["destination"], dict["travel_date"],
             dict["departure_time"], dict["duration"], dict["arrival_time"],
             dict["price"], dict["transfers"], dict["luggage_allowance"],
