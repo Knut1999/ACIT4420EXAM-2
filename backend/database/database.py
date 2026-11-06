@@ -10,8 +10,8 @@ class Database:
     def getCompanies():
         #https://docs.python.org/3/library/sqlite3.html?utm used this link as insperation
         load_dotenv()
-        NEON_URL = os.getenv("NEON_URL")
-        con = psycopg.connect(NEON_URL)
+        DATABASE_URL = os.getenv("DATABASE_URL")
+        con = psycopg.connect(DATABASE_URL)
         cur = con.cursor()
         #"https://www.sqlitetutorial.net/sqlite-python/sqlite-python-select/" to know how to get things from sql db
         res = cur.execute('SELECT company FROM "routInfo"')
@@ -26,8 +26,8 @@ class Database:
     def getIdFromCompanyName(companyName):
         #https://docs.python.org/3/library/sqlite3.html?utm used this link as insperation
         load_dotenv()
-        NEON_URL = os.getenv("NEON_URL")
-        con = psycopg.connect(NEON_URL)
+        DATABASE_URL = os.getenv("DATABASE_URL")
+        con = psycopg.connect(DATABASE_URL)
         cur = con.cursor()
         res = cur.execute("""
             SELECT id 
@@ -46,8 +46,8 @@ class Database:
     def getCompanyRouts(companyName, destination):
         #https://docs.python.org/3/library/sqlite3.html?utm used this link as insperation
         load_dotenv()
-        NEON_URL = os.getenv("NEON_URL")
-        con = psycopg.connect(NEON_URL)
+        DATABASE_URL = os.getenv("DATABASE_URL")
+        con = psycopg.connect(DATABASE_URL)
         cur = con.cursor()
         res = cur.execute("""
             SELECT * 

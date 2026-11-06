@@ -8,10 +8,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-NEON_URL = os.getenv("NEON_URL")
-conn = psycopg.connect(NEON_URL)
+DATABASE_URL = os.getenv("DATABASE_URL")
+conn = psycopg.connect(DATABASE_URL)
 cursor = conn.cursor()
-psycopg.connect(NEON_URL)
+psycopg.connect(DATABASE_URL)
 cursor = conn.cursor()
 cursor.execute('DELETE FROM "routInfo"')
 conn.commit()
