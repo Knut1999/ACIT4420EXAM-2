@@ -1,12 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from database.database import Database
 from offer.OfferController import OfferController
-# from database.fill_db import fill_db
+from database.fill_db import fill_db
 
 
 app = FastAPI()
-# fill_db()
 offerController = OfferController()
 
 origins = [
@@ -23,9 +23,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/hello")
+@app.get("/getDB")
 def read_root():
-    return {"Hello": "World"}
+    return Database.getEveryLineInDb()
+
+@app.post("/newDatabase")
+def read_root():
+    fill_db()
+    return {"message": "Database generated successfully"}
 
 
 
@@ -35,8 +40,6 @@ class Item(BaseModel):
     budgetSum: float
     preferredDepartureTime: str
     weights: list[float]
-    
-
 @app.post("/items/")
 async def create_item(item: Item):
     offers = offerController.websiteInputs(item.destination,item.budgetType,item.budgetSum, item.preferredDepartureTime, item.weights)
