@@ -1,10 +1,12 @@
-const API_URL = window.location.hostname === "localhost"
-    ? "http://localhost:8000"
-    : "https://acit-4420-exam-2.vercel.app";
+// const API_URL = window.location.hostname === "localhost"
+//     ? "http://localhost:8000"
+//     : "https://acit-4420-exam-2.vercel.app";
+const API_URL = "https://acit-4420-exam-2.vercel.app/items/";
 
 async function search() {
-    let urlPost = API_URL;
-    urlPost += "/items/";
+    // let urlPost = API_URL;
+    // urlPost += "/items/";
+    const urlPost = "https://acit-4420-exam-2.vercel.app/items/";
 
 
     const weights = [

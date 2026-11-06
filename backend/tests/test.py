@@ -8,3 +8,13 @@ for offer in offers:
 
 for res in result:
     print(res)
+
+# {
+#   "destination": "Cadiz",
+#   "budgetType": "Budget traveller",
+#   "budgetSum": 50.0,
+#   "preferredDepartureTime": "12:50",
+#   "weights": [
+#     0.1667,0.1667,0.1667,0.1667,0.1667,0.1667,0.342
+#   ]
+# }
