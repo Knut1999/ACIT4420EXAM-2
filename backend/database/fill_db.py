@@ -6,18 +6,21 @@ import os
 import psycopg
 from dotenv import load_dotenv
 
-load_dotenv()
 
+
+today = date.today()
+load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 conn = psycopg.connect(DATABASE_URL)
 cursor = conn.cursor()
-psycopg.connect(DATABASE_URL)
-cursor = conn.cursor()
-cursor.execute('DELETE FROM "routInfo"')
-conn.commit()
-
-today = date.today()
 def fill_db():
+    #this open database and delete prev values
+    cursor.execute("""
+        TRUNCATE TABLE "routInfo" RESTART IDENTITY
+    """)
+    conn.commit()
+
+    #logic for filling DB
     departureHub = "Madrid"
     destinations = getDestinations()
     for i in range(len(destinations)):
@@ -36,6 +39,7 @@ def fill_db():
     errors = transferErrorRecordsToDatabase()
     for error in errors:
         sqlInsertion(error)
+    conn.commit()
     conn.close()
 
 def sqlInsertion(dict):
@@ -53,9 +57,9 @@ def sqlInsertion(dict):
             dict["changeability"], dict["refundability"], dict["available_seats"],
             dict["customer_rating"], dict["environmental_measure"])
         )
-        conn.commit()
     except (ValueError, IndexError, KeyError) as e:
         print(f"Skipping offer: {e}")
+    
 
 
 if __name__ == "__main__":
