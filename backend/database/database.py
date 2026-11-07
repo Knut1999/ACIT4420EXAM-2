@@ -81,6 +81,23 @@ class Database:
         routs = res.fetchall()
         con.close()
         return routs
+
+    @staticmethod
+    def getLineFromId(id):
+        #https://docs.python.org/3/library/sqlite3.html?utm used this link as insperation
+        load_dotenv()
+        DATABASE_URL = os.getenv("DATABASE_URL")
+        con = psycopg.connect(DATABASE_URL)
+        cur = con.cursor()
+        res = cur.execute("""
+            SELECT * 
+            FROM "routInfo" 
+            WHERE id = %s"""
+            , (id,)
+        )
+        route = res.fetchall()
+        con.close()
+        return route
     
 if __name__ == "__main__":
     database = Database()

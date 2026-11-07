@@ -8,3 +8,19 @@ ids,errortype,error
 "[226, 239]",Invalid company name,NONAME
 "[296, 309]",Invalid company name,NONAME
 307,['Invalid number of Environmental measure'],[-3]
+"[1542, 1555]",Invalid company name,NONAME
+1553,['Invalid number of Environmental measure'],[-3]
+"[1781, 1794]",Invalid company name,NONAME
+1792,['Invalid number of Environmental measure'],[-3]
+"[2020, 2033]",Invalid company name,NONAME
+2031,['Invalid number of Environmental measure'],[-3]
+"[2259, 2272]",Invalid company name,NONAME
+2266,['Invalid number of Luggage allowance'],[-2]
+2264,['Invalid Price'],[-15.0]
+2503,['Invalid Price'],[-15.0]
+"[2498, 2511]",Invalid company name,NONAME
+"[2747, 2773]",Invalid company name,NONAME
+"[3000, 3013]",Invalid company name,NONAME
+"[3239, 3252]",Invalid company name,NONAME
+3250,['Invalid number of Environmental measure'],[-3]
+3246,['Invalid number of Luggage allowance'],[-2]

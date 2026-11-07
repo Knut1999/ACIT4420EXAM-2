@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <meta charset="UTF-8">
+        <!--https://www.youtube.com/watch?v=XmdOZ5NSqb8&list=PL-51WBLyFTg1l3K0aTH0uX6PzgaLfzJBK used as insperation-->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="database.css">
+    </head>
     <body>
-        
         <h1>BUS BIDDER</h1>
         <br>
         <h2 style="font-size: 16px;">
@@ -19,7 +24,7 @@
         </button> 
         <br>
         <br>
-        <label for="destinations">Travel from Barcelona to -> </label>
+        <label for="destinations">Travel from Madrid to -> </label>
         <select name="destinations" id="destinations">
             <option value="Alicante">Alicante</option>
             <option value="Barcelona">Barcelona</option>
@@ -37,6 +42,14 @@
             <option value="Valencia">Valencia</option>
             <option value="Zaragoza">Zaragoza</option>
         </select>
+
+        <label for="firstName">First name:</label>
+        <input type="text" id="firstName" name="firstName" placeholder="Enter first name">
+
+        <label for="lastName">Last name:</label>
+        <input type="text" id="lastName" name="lastName" placeholder="Enter last name">
+
+        <br><br>
 
         <label for="budgetType">Choose budget type</label>
         <select name="budgetType" id="budgetType" onchange="moveSliders()">

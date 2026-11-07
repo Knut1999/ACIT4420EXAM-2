@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from database.database import Database
+from booking.BookingController import BookingController
 from offer.OfferController import OfferController
 from database.fill_db import fill_db
 
@@ -36,15 +37,25 @@ def read_root():
 
 class Item(BaseModel):
     destination: str
-    budgetType: str 
     budgetSum: float
     preferredDepartureTime: str
     weights: list[float]
 @app.post("/items/")
 async def create_item(item: Item):
-    offers = offerController.websiteInputs(item.destination,item.budgetType,item.budgetSum, item.preferredDepartureTime, item.weights)
+    offers = offerController.websiteInputs(item.destination,item.budgetSum, item.preferredDepartureTime, item.weights)
     result = []
     for offer in offers:
         result.append(offer.__dict__)
 
     return result
+
+bookingController = BookingController()
+class Booking(BaseModel):
+    id: int
+    firstName: str
+    lastName: str
+@app.post("/booking/")
+async def book_item(booking: Booking):
+    bookingRef = bookingController.bookingInputs(booking.id)
+    
+    return bookingRef

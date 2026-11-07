@@ -19,7 +19,6 @@ async function search() {
         },
         body: JSON.stringify({
             destination: document.getElementById("destinations").value,
-            budgetType: document.getElementById("budgetType").value,
             budgetSum: document.getElementById("budgetSum").value,
             preferredDepartureTime: document.getElementById("preferredDepartureTime").value,
             weights: weights
