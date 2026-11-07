@@ -32,8 +32,9 @@ async function search() {
     offers.forEach((offer, index) => {
         const row = table.insertRow();
 
-        row.onclick = () => {
-            booking(offer.id);
+        row.onclick = async () => {
+            await booking(offer.id);
+            await search();
         };
         
         row.innerHTML = `

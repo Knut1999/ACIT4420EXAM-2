@@ -1,17 +1,10 @@
 from database.booking.BookingDatabase import BookingDatabase
-from booking.bookingStandaloneFunctions import createUser, availableSeats, findUser
+from booking.bookingStandaloneFunctions import availableSeats
 from database.offers.offersDatabase import OfferDatabase
-from booking.bookingClasses import User
 
 class BookingController:
-    def __init__(self):
-        self.users:list[User] = []
+
     def bookingInputs(self, offerId:int, firstName:str, lastName:str):
-        #checking if user exist
-        if(BookingDatabase.user_exists(firstName, lastName) == False):
-            BookingDatabase.user_to_db(firstName,lastName)
-            user = createUser(firstName, lastName)
-            self.users.append(user)
         #checking if there are available seats
         if(availableSeats(offerId) == False):
             return "No available seats"
@@ -25,15 +18,23 @@ class BookingController:
         OfferDatabase.reduceSeatFromId(offerId)
 
     def getAllBookings(self, firstName:str, lastName:str):
-        userObject = findUser(self.users, firstName, lastName)
-
-        if(userObject == None):
-            return "User not in database"
-
         #we need offer ids to get the offer we have ordered
-        offerIds = BookingDatabase(userObject.id)
+        allBookings = BookingDatabase.getBookingsFromName(firstName, lastName)
+        # print(allBookings)
         bookedOffers = []
-        for id in offerIds:
-            bookedOffers.append(OfferDatabase.getLineFromId(id))
+        for id in allBookings:
+            bookedOffers.append(OfferDatabase.getLineFromId(id)[0])
 
         return bookedOffers
+
+    def cancelBooking(self, offerId:int, firstName:str, lastName:str):
+        #we need offer ids to get the offer we have ordered
+        allBookings = BookingDatabase.getBookingsFromName(firstName, lastName)
+        
+        for booking in allBookings:
+            if booking == offerId:
+                BookingDatabase.unBookSeat(offerId, firstName, lastName)
+                OfferDatabase.increaseSeatFromId(offerId)
+                break
+        return
+

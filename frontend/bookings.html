@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="database.css">
+    </head>
+    <body>
+        <h1>MY BOOKINGS</h1>
+
+        <br>
+
+        <label for="firstName">First name:</label>
+        <input type="text" id="firstName" placeholder="Enter first name">
+
+        <label for="lastName">Last name:</label>
+        <input type="text" id="lastName" placeholder="Enter last name">
+
+        <button type="button" onclick="showBooking()">Find bookings</button>
+
+        <br><br>
+
+        <table class="table table-striped">
+            <thead>
+                <tr class="bg-info">
+                    <th>Id</th>
+                    <th>Company</th>
+                    <th>Destination</th>
+                    <th>Travel date</th>
+                    <th>Departure</th>
+                    <th>Duration</th>
+                    <th>Arrival</th>
+                    <th>Price</th>
+                    <th>Transfers</th>
+                    <th>Luggage</th>
+                    <th>Changeability</th>
+                    <th>Refundability</th>
+                    <th>Available seats</th>
+                    <th>Customer rating</th>
+                    <th>Environmental measure</th>
+                    <th>Cancel booking</th>
+                </tr>
+            </thead>
+            <tbody id="bookingsTable"></tbody>
+        </table>
+
+        <script src="showBookings.js"></script>
+    </body>
+</html>

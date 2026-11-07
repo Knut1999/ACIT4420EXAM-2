@@ -25,7 +25,7 @@ class BookingDatabase:
         return False
 
     @staticmethod
-    def user_to_db(firstName:str, lastName:str):
+    def bookSeat(offerId:int, firstName:str, lastName:str):
         load_dotenv()
         DATABASE_URL = os.getenv("DATABASE_URL")
         con = psycopg.connect(DATABASE_URL)
@@ -33,25 +33,8 @@ class BookingDatabase:
         cur.execute("""
             INSERT INTO "bookings" 
             (
-            first_name, last_name 
-            ) VALUES (%s, %s)""",
-            (firstName, lastName)
-        )
-        con.commit()
-        con.close()
-
-    @staticmethod
-    def bookSeat(offerId:int, firstName:str, lastName:str):
-        load_dotenv()
-        DATABASE_URL = os.getenv("DATABASE_URL")
-        con = psycopg.connect(DATABASE_URL)
-        cur = con.cursor()
-        cur.execute("""
-            UPDATE "bookings"
-            SET offer_ids = array_append(offer_ids, %s)
-            WHERE first_name = %s
-            and last_name = %s
-            """,
+            offer_id, first_name, last_name 
+            ) VALUES (%s, %s, %s)""",
             (offerId, firstName, lastName)
         )
 
@@ -59,21 +42,50 @@ class BookingDatabase:
         con.close()
 
     @staticmethod
-    def getBookingFromId(id):
+    def unBookSeat(offerId:int, firstName:str, lastName:str):
+        load_dotenv()
+        DATABASE_URL = os.getenv("DATABASE_URL")
+        con = psycopg.connect(DATABASE_URL)
+        cur = con.cursor()
+        cur.execute("""
+            DELETE FROM bookings
+            WHERE user_id = (
+                SELECT user_id
+                FROM bookings
+                WHERE offer_id = %s
+                AND first_name = %s
+                AND last_name = %s
+                LIMIT 1
+            )""",
+            (offerId, firstName, lastName)
+        )
+
+        con.commit()
+        con.close()
+
+    @staticmethod
+    def getBookingsFromName(firstName, lastName):
         #https://docs.python.org/3/library/sqlite3.html?utm used this link as insperation
         load_dotenv()
         DATABASE_URL = os.getenv("DATABASE_URL")
         con = psycopg.connect(DATABASE_URL)
         cur = con.cursor()
         res = cur.execute("""
-            SELECT offer_ids 
+            SELECT offer_id 
             FROM "bookings" 
-            WHERE id = %s"""
-            , (id,)
+            WHERE first_name = %s
+            AND last_name = %s"""
+            , (firstName,lastName)
         )
-        route = res.fetchall()[0]
+        route = res.fetchall()
         con.close()
-        return route
+
+        #had to do this to not get [(141,), (141,), (141,)] syntax
+        routelist = []
+        for r in route:
+            routelist.append(r[0])
+        
+        return routelist
 
     @staticmethod
     def getIdFromName(first_name,last_name):
@@ -83,13 +95,13 @@ class BookingDatabase:
         con = psycopg.connect(DATABASE_URL)
         cur = con.cursor()
         res = cur.execute("""
-            SELECT id 
+            SELECT user_id 
             FROM "bookings" 
             WHERE first_name = %s
             AND last_name = %s"""
             , (first_name,last_name)
         )
-        companies_db = res.fetchall()
+        user_id = res.fetchall()[0][0]
         con.close()
 
-        return res
+        return user_id

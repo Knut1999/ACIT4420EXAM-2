@@ -63,3 +63,14 @@ async def book_item(booking: Booking):
 @app.get("/getOffers")
 def read_root(firstName, lastName):
     return bookingController.getAllBookings(firstName, lastName)
+
+
+class Booking(BaseModel):
+    offerId: int
+    firstName: str
+    lastName: str
+@app.post("/unBook/")
+async def book_item(booking: Booking):
+    bookingRef = bookingController.cancelBooking(booking.offerId, booking.firstName, booking.lastName)
+    
+    return 

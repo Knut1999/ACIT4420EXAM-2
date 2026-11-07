@@ -20,9 +20,9 @@ async function booking(id) {
             "Content-Type": "application/json",
         },
             body: JSON.stringify({
+                id: id,
                 firstName: firstName,
                 lastName: lastName,
-                id: id,
             }),
     });
 }
