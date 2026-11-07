@@ -1,7 +1,7 @@
 from datetime import date
 import psycopg
-from database.generateData import generateCaminoExpress, generateCostaLink, generateNocheVia, generateSolRuta, generateVerdeBus, transferErrorRecordsToDatabase
-from offer.standaloneFunctions import getDestinations, getTravelTimes, getTravelPrices
+from database.offers.offersGenerateData import generateCaminoExpress, generateCostaLink, generateNocheVia, generateSolRuta, generateVerdeBus, transferErrorRecordsToDatabase
+from offer.standaloneFunctions import getDestinations
 import os
 import psycopg
 from dotenv import load_dotenv
@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 
 
 today = date.today()
-def fill_db():
+def offersFill_db():
     load_dotenv()
     DATABASE_URL = os.getenv("DATABASE_URL")
     conn = psycopg.connect(DATABASE_URL)
@@ -30,18 +30,18 @@ def fill_db():
             costaLink = generateCostaLink(destinations[i])
             verdeBus = generateVerdeBus(destinations[i])
             nocheVia = generateNocheVia(destinations[i])
-            sqlInsertion(solRutaDict, cursor)
-            sqlInsertion(caminoExpress, cursor)
-            sqlInsertion(costaLink, cursor)
-            sqlInsertion(verdeBus, cursor)
-            sqlInsertion(nocheVia, cursor)
+            offersSqlInsertion(solRutaDict, cursor)
+            offersSqlInsertion(caminoExpress, cursor)
+            offersSqlInsertion(costaLink, cursor)
+            offersSqlInsertion(verdeBus, cursor)
+            offersSqlInsertion(nocheVia, cursor)
     errors = transferErrorRecordsToDatabase()
     for error in errors:
-        sqlInsertion(error, cursor)
+        offersSqlInsertion(error, cursor)
     conn.commit()
     conn.close()
 
-def sqlInsertion(dict, cursor):
+def offersSqlInsertion(dict, cursor):
     try:
         cursor.execute(
             """INSERT INTO "routInfo" (
@@ -62,4 +62,4 @@ def sqlInsertion(dict, cursor):
 
 
 if __name__ == "__main__":
-    fill_db()
+    offersFill_db()

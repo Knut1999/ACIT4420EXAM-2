@@ -1,5 +1,5 @@
 from datetime import datetime
-from offer.classes import Company, Offer
+from offer.offerClasses import Company, Offer
 import csv
 import sqlite3
 import os

@@ -1,6 +1,6 @@
 from datetime import date, datetime
 
-from offer.classes import Offer
+from offer.offerClasses import Offer
 from offer.standaloneFunctions import getDestinations
 
 #all the functions return the error type and the specific error

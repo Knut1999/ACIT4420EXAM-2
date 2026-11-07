@@ -25,14 +25,18 @@ async function search() {
         }),
     });
     const offers = await responsePost.json();
-
+    
     const table = document.getElementById("offersTable");
     table.innerHTML = "";
-
+    
     offers.forEach((offer, index) => {
         const row = table.insertRow();
 
-    row.innerHTML = `
+        row.onclick = () => {
+            booking(offer.id);
+        };
+        
+        row.innerHTML = `
         <td>${index + 1}</td>
         <td>${offer.companyName}</td>
         <td>${offer.destination}</td>
@@ -51,4 +55,5 @@ async function search() {
         <td>${offer.score.toFixed(3)}</td>
         `;
     });
+
 }

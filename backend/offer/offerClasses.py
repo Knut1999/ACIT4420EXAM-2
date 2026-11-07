@@ -1,13 +1,4 @@
-from database.database import Database
-
-class User:
-    def __init__(self, destination:str, budgetType:str, budgetSum:float):
-        self.destination = destination
-        self.budgetType = budgetType
-        self.budgetSum = budgetSum
-
-    def getUserDestination(self):
-        return self.destination
+from database.offers.offersDatabase import OfferDatabase
 
 class Company:
     def __init__(self, name:str):
@@ -23,7 +14,7 @@ class Company:
             self.offers.append(offer)
 
     def getCompanyRouts(self, destination:str) -> list:
-        return Database.getCompanyRouts(self.name, destination)
+        return OfferDatabase.getCompanyRouts(self.name, destination)
 
     def getOffers(self):
         return self.offers

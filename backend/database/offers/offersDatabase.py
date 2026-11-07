@@ -3,9 +3,7 @@ import sqlite3
 from dotenv import load_dotenv
 import psycopg
 
-class Database:
-    db_path = "database/dataset.db"
-
+class OfferDatabase:
     @staticmethod
     def getCompanies():
         #https://docs.python.org/3/library/sqlite3.html?utm used this link as insperation
@@ -98,7 +96,23 @@ class Database:
         route = res.fetchall()
         con.close()
         return route
+
+    @staticmethod
+    def reduceSeatFromId(id):
+        #https://docs.python.org/3/library/sqlite3.html?utm used this link as insperation
+        load_dotenv()
+        DATABASE_URL = os.getenv("DATABASE_URL")
+        con = psycopg.connect(DATABASE_URL)
+        cur = con.cursor()
+        cur.execute("""
+            UPDATE "routInfo"
+            SET available_seats = available_seats - 1
+            WHERE id = %s"""
+            , (id,)
+        )
+        con.commit()
+        con.close()
     
 if __name__ == "__main__":
-    database = Database()
+    database = OfferDatabase()
     ids = database.getIdFromCompanyName("NONAME")

@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from database.database import Database
+from database.offers.offersDatabase import OfferDatabase
 from booking.BookingController import BookingController
 from offer.OfferController import OfferController
-from database.fill_db import fill_db
+from database.offers.offersFill_db import offersFill_db
 
 
 app = FastAPI()
@@ -26,11 +26,11 @@ app.add_middleware(
 
 @app.get("/getDB")
 def read_root():
-    return Database.getEveryLineInDb()
+    return OfferDatabase.getEveryLineInDb()
 
 @app.post("/newDatabase")
 def read_root():
-    fill_db()
+    offersFill_db()
     return {"message": "Database generated successfully"}
 
 
@@ -56,6 +56,10 @@ class Booking(BaseModel):
     lastName: str
 @app.post("/booking/")
 async def book_item(booking: Booking):
-    bookingRef = bookingController.bookingInputs(booking.id)
+    bookingRef = bookingController.bookingInputs(booking.id, booking.firstName, booking.lastName)
     
     return bookingRef
+
+@app.get("/getOffers")
+def read_root(firstName, lastName):
+    return bookingController.getAllBookings(firstName, lastName)

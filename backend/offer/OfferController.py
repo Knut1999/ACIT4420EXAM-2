@@ -1,13 +1,12 @@
 from offer.OfferRanker import OfferRanker
 from offer.standaloneFunctions import getOffers, createCompanyObjects, normalizeWeights
 from validation.validation import validateCompany, validateOffers
-from offer.classes import User
-from database.database import Database
+from database.offers.offersDatabase import OfferDatabase
 
 class OfferController:
     def __init__(self):
         #list of strings of the company names from static Database function
-        self.companies_set = Database.getCompanies()
+        self.companies_set = OfferDatabase.getCompanies()
         # create company objects
         self.companies = createCompanyObjects(self.companies_set)
         #first create emty invalid csv, then remove companies with faulty names(put them in the invalid csv), update list with valid companies
