@@ -1,9 +1,10 @@
 from datetime import date, datetime
 
 from validation.standaloneFunctionsValidation import validateCustomerRating, validateDate, validateDepartureAndArrival, validateDestination, validateNonNegativeFloat, validateNonNegativeInteger
-from offer.offerClasses import Company, Offer
+from offer.offerClasses import Company
 from database.offers.offersDatabase import OfferDatabase
-from offer.standaloneFunctions import errorMessageToCSV, getCompanies
+from offer.standaloneFunctions import getCompanies
+from database.errors.ErrorDatabase import ErrorDatabase
 
 def validateCompany(companyList: list[Company]) -> list[Company]:
     validCompaniesStr = getCompanies()
@@ -18,8 +19,8 @@ def validateCompany(companyList: list[Company]) -> list[Company]:
     for errCompany in inValidCompanies:
         errorType = "Invalid company name"
         error = errCompany.name
-        ids = OfferDatabase.getIdFromCompanyName(errCompany.name)
-        errorMessageToCSV(ids, errorType,error)
+        # ids = OfferDatabase.getIdFromCompanyName(errCompany.name)
+        ErrorDatabase.errorMessageToDB(None, errorType, error)
             
     return validCompanies
 
@@ -53,6 +54,6 @@ def validateOffers(company:Company):
         error.extend(result[1])
 
         if(errorType):
-            errorMessageToCSV(offer.id, errorType,error)
+            ErrorDatabase.errorMessageToDB(offer.id, errorType, error)
             company.offers.remove(offer)
 

@@ -5,6 +5,8 @@ from database.offers.offersDatabase import OfferDatabase
 from booking.BookingController import BookingController
 from offer.OfferController import OfferController
 from database.offers.offersFill_db import offersFill_db
+from database.errors.ErrorDatabase import ErrorDatabase
+from database.booking.BookingDatabase import BookingDatabase
 
 
 app = FastAPI()
@@ -30,6 +32,11 @@ def read_root():
 
 @app.post("/newDatabase")
 def read_root():
+    #when we fill our new db, we also want to delete the content of our error db
+    ErrorDatabase.emptyErrorMessageDB()
+    #same with bookings
+    BookingDatabase.emptyBookingsDB()
+
     offersFill_db()
     return {"message": "Database generated successfully"}
 
@@ -72,5 +79,4 @@ class Booking(BaseModel):
 @app.post("/unBook/")
 async def book_item(booking: Booking):
     bookingRef = bookingController.cancelBooking(booking.offerId, booking.firstName, booking.lastName)
-    
     return 

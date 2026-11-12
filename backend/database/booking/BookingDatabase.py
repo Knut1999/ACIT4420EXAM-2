@@ -5,7 +5,17 @@ import psycopg
 
 
 class BookingDatabase:
-    
+    @staticmethod
+    def emptyBookingsDB():
+        load_dotenv()
+        DATABASE_URL = os.getenv("DATABASE_URL")
+        con = psycopg.connect(DATABASE_URL)
+        cur = con.cursor()
+        cur.execute("""
+            TRUNCATE TABLE "bookings" RESTART IDENTITY
+        """)
+        con.commit()
+
     @staticmethod
     def user_exists(firstName:str, lastName:str):
         load_dotenv()
