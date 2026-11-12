@@ -1,10 +1,12 @@
 from datetime import date, datetime
+from logging import exception
 
 from validation.standaloneFunctionsValidation import validateCustomerRating, validateDate, validateDepartureAndArrival, validateDestination, validateNonNegativeFloat, validateNonNegativeInteger
 from offer.offerClasses import Company
 from database.offers.offersDatabase import OfferDatabase
 from offer.standaloneFunctions import getCompanies
 from database.errors.ErrorDatabase import ErrorDatabase
+from validation.OfferValidationError import OfferValidationError
 
 def validateCompany(companyList: list[Company]) -> list[Company]:
     validCompaniesStr = getCompanies()
@@ -29,31 +31,48 @@ def validateOffers(company:Company):
         errorType = []
         error = []
         #companyName is already validated in controller __init__
-        result = (validateDestination(offer))
-        errorType.extend(result[0])
-        error.extend(result[1])
+        try: 
+            validateDestination(offer)
+        except OfferValidationError as exception:
+            #because function use InvalidDestinationError, we can use type.__name__
+            errorType.append(type(exception).__name__)
+            #get the error message from the function
+            error.append(str(exception))
+
         #checking if traveldate is in future and that type is correct
-        result = (validateDate(offer))
-        errorType.extend(result[0])
-        error.extend(result[1])
+        try:
+            validateDate(offer)
+        except OfferValidationError as exception:
+            errorType.append(type(exception).__name__)
+            error.append(str(exception))
+
         #checking departure time
-        result = (validateDepartureAndArrival(offer))
-        errorType.extend(result[0])
-        error.extend(result[1])
+        try:
+            validateDepartureAndArrival(offer)
+        except OfferValidationError as exception:
+            errorType.append(type(exception).__name__)
+            error.append(str(exception))
+
         #check duration
-        result = (validateNonNegativeFloat(offer))
-        errorType.extend(result[0])
-        error.extend(result[1])
+        try:
+            validateNonNegativeFloat(offer)
+        except OfferValidationError as exception:
+            errorType.append(type(exception).__name__)
+            error.append(str(exception))
         #check transfers for int and above 0
-        result = (validateNonNegativeInteger(offer))
-        errorType.extend(result[0])
-        error.extend(result[1])
+        try:
+            validateNonNegativeInteger(offer)
+        except OfferValidationError as exception:
+            errorType.append(type(exception).__name__)
+            error.append(str(exception))
         #customer rating between 1 and 5
-        result = (validateCustomerRating(offer))
-        errorType.extend(result[0])
-        error.extend(result[1])
+        try:
+            validateCustomerRating(offer)
+        except OfferValidationError as exception:
+            errorType.append(type(exception).__name__)
+            error.append(str(exception))
 
         if(errorType):
-            ErrorDatabase.errorMessageToDB(offer.id, errorType, error)
-            company.offers.remove(offer)
+            for i in range(len(errorType)):
+                ErrorDatabase.errorMessageToDB(offer.id, errorType[i], error[i])
 

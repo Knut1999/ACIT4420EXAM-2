@@ -3,87 +3,80 @@ from datetime import date, datetime
 from offer.offerClasses import Offer
 from offer.standaloneFunctions import getDestinations
 
+#our exception classes
+from validation.OfferValidationError import (
+    InvalidDestinationError,
+    InvalidDateError,
+    InvalidTimeError,
+    InvalidPriceOrDurationError,
+    InvalidRatingError,
+    InvalidIntegerError
+)
+
 #all the functions return the error type and the specific error
 def validateDestination(offer):
-    errorType = []
-    error = []
     if offer.destination not in getDestinations():
-        errorType.append("Invalid destination")
-        error.append(offer.destination)
-    return errorType, error
+        raise InvalidDestinationError(
+            f"Invalid destination {offer.destination}"
+        )
 
 def validateDate(offer):
-    errorType = []
-    error = []
     try:
         dateString = offer.travelDate
         parsedDate = datetime.strptime(dateString, "%Y-%m-%d")
         travelDate = parsedDate.date()
         # print(type(travelDate), travelDate)
         if travelDate < date.today():
-            errorType.append("Travel date is in the past")
-            error.append(offer.travelDate)
+            raise InvalidDateError(
+                "Travel date is in the past"
+            )
     except ValueError:
-        errorType.append("Invalid travel date type")
-        error.append(offer.travelDate)
-    return errorType, error
+        raise InvalidDateError(
+            "Invalid travel date"
+        )
 
 def validateDepartureAndArrival(offer: Offer):
-    errorType = []
-    error = []
     for stringType, time in [("Departure",offer.departureTime), ("Arrival", offer.arrivalTime)]:
         try:
             departureString = time
             parsedTime = datetime.strptime(departureString, "%H:%M")
             departureTime = parsedTime.time()
         except ValueError:
-            errorType.append(f"Invalid {stringType} time")
-            error.append(time)
-    return errorType, error
+            raise InvalidTimeError(
+                f"Invalid {stringType} time"
+            )
 
 def validateNonNegativeFloat(offer:Offer):
-    errorType = []
-    error = []
     #both duration and price uses same function due to both beeing float above 0   
     for stringType, value in [("Duration",offer.duration), ("Price",offer.price)]:
         try:
-            duration = float(value)
-            if duration <= 0:
-                errorType.append(f"Invalid {stringType}")
-                error.append(value)
-                return errorType, error
+            number = float(value)
+            if number <= 0:
+                raise InvalidPriceOrDurationError(f"Invalid, {stringType} cant be less or equal 0 -> : {value}")
         except ValueError:
-            errorType.append(f"Invalid {stringType}")
-            error.append(value)
-            return errorType, error
-    return errorType, error
+            raise InvalidPriceOrDurationError(f"Invalid, {stringType} cant converted to float ->  value is: {value}")
 
 def validateNonNegativeInteger(offer: Offer):
-    errorType = []
-    error = [] 
-    try:
-        for stringType, value in [("Luggage allowance",offer.luggageAllowance), ("Available seats",offer.availableSeats), ("Environmental measure", offer.environmentalMeasure)]:
+    for stringType, value in [("Luggage allowance",offer.luggageAllowance), ("Available seats",offer.availableSeats), ("Environmental measure", offer.environmentalMeasure)]:
+        try:
             integer = int(value)
             if integer < 0:
-                errorType.append(f"Invalid number of {stringType}")
-                error.append(value)
-                return errorType, error
-    except ValueError:
-        errorType.append(f"Invalid type of {stringType}")
-        error.append(value)
-        return errorType, error 
-    return errorType, error
+                raise InvalidIntegerError(
+                    f"{stringType} cant be lower than 0"
+                )
+        except ValueError:
+            raise InvalidIntegerError(
+                f"{stringType} cant converted to integer"
+            )
 
 def validateCustomerRating(offer: Offer):
-    errorType = []
-    error = [] 
     try:
         rating = float(offer.customerRating)
         if rating < 0 or rating > 5:
-            errorType.append("Invalid customer rating")
-            error.append(offer.customerRating)
-        return errorType, error
+            raise InvalidRatingError(
+                "Invalid customer rating, must be between 0 and 5"
+            )
     except ValueError:
-        errorType.append("Invalid customer rating type")
-        error.append(offer.customerRating)
-        return errorType, error
+        raise InvalidRatingError(
+            "Invalid customer rating, cant be converted to float"
+        )
