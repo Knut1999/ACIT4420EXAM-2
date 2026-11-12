@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from logging.logging import Log
 from database.offers.offersDatabase import OfferDatabase
 from booking.BookingController import BookingController
 from offer.OfferController import OfferController
@@ -80,3 +81,12 @@ class Booking(BaseModel):
 async def book_item(booking: Booking):
     bookingRef = bookingController.cancelBooking(booking.offerId, booking.firstName, booking.lastName)
     return 
+
+@app.get("/getLog")
+def read_root():
+    return Log.getLog()
+
+@app.delete("/deleteLog")
+def read_root():
+    Log.emptyLogDb()
+    return {"message": "Log deleted"}

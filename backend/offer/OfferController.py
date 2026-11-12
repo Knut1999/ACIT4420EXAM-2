@@ -2,6 +2,7 @@ from offer.OfferRanker import OfferRanker
 from offer.standaloneFunctions import getOffers, createCompanyObjects, normalizeWeights
 from validation.validation import validateCompany, validateOffers
 from database.offers.offersDatabase import OfferDatabase
+from logging.logging import Log
 
 class OfferController:
     def __init__(self):
@@ -29,6 +30,7 @@ class OfferController:
 
 
     def generateOffers(self):
+        Log.logInsert("generate offers")
         for company in self.companies:
             company.generateOffers(self.destination)
             validateOffers(company) #removes invalid offers, puts them in invalid_records.csv
