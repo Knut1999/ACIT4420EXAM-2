@@ -46,7 +46,7 @@ class BookingController:
         allBookings = BookingDatabase.getBookingsFromName(firstName, lastName)
         
         for booking in allBookings:
-            if booking == offerId:
+            if booking[1] == offerId:
                 BookingDatabase.unBookSeat(offerId, firstName, lastName)
                 OfferDatabase.increaseSeatFromId(offerId)
                 Log.logInsert("Cancel successful")
