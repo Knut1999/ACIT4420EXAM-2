@@ -27,6 +27,7 @@ def validateCompany(companyList: list[Company]) -> list[Company]:
     return validCompanies
 
 def validateOffers(company:Company):
+    offersToRemove = []
     for offer in company.offers:
         errorType = []
         error = []
@@ -73,6 +74,12 @@ def validateOffers(company:Company):
             error.append(str(exception))
 
         if(errorType):
+            print(offer.companyName, offer.destination, errorType, error)
+            offersToRemove.append(offer)
             for i in range(len(errorType)):
                 ErrorDatabase.errorMessageToDB(offer.id, errorType[i], error[i])
+    for offer in offersToRemove:
+        company.getOffers().remove(offer)
+        # print("remove", offer)
+                
 

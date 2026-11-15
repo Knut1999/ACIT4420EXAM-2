@@ -1,4 +1,5 @@
 from datetime import date, datetime
+import re
 
 from offer.offerClasses import Offer
 from offer.standaloneFunctions import getDestinations
@@ -26,10 +27,12 @@ def validateDate(offer):
         parsedDate = datetime.strptime(dateString, "%Y-%m-%d")
         travelDate = parsedDate.date()
         # print(type(travelDate), travelDate)
-        if travelDate < date.today():
-            raise InvalidDateError(
-                "Travel date is in the past"
-            )
+        #not check if traveldate is in the past because then it heppens no 
+        #dates are old because noonre refreshed database
+        # if travelDate < date.today():
+        #     raise InvalidDateError(
+        #         "Travel date is in the past"
+        #     )
     except ValueError:
         raise InvalidDateError(
             "Invalid travel date"
@@ -37,14 +40,13 @@ def validateDate(offer):
 
 def validateDepartureAndArrival(offer: Offer):
     for stringType, time in [("Departure",offer.departureTime), ("Arrival", offer.arrivalTime)]:
-        try:
-            departureString = time
-            parsedTime = datetime.strptime(departureString, "%H:%M")
-            departureTime = parsedTime.time()
-        except ValueError:
+        #regex, not totally nessecarry, but makes code more compact
+        if not re.fullmatch(r"([01]\d|2[0-3]):[0-5]\d", time):
             raise InvalidTimeError(
                 f"Invalid {stringType} time"
             )
+
+        
 
 def validateNonNegativeFloat(offer:Offer):
     #both duration and price uses same function due to both beeing float above 0   
