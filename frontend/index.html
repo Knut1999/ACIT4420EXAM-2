@@ -10,21 +10,20 @@
         <h1>BUS BIDDER</h1>
         <br>
         <h2 style="font-size: 16px;">
-            Click button below to generate a new database, it will take some time to regenerate (1-2 minutes)
+            NB, generating new db can take some time (max 30 sek)
         </h2>
-        <button type="button" id="newDatabase" onclick="newDatabase()">
-            Create new database
-        </button>
         <br>
-        <h2 style="font-size: 16px;">
-            Look at database
-        </h2>
-        <button type="button" id="openDB" onclick="window.location.href='database.html'">
-            Look at database
-        </button> 
-        <button type="button" id="findBookings" onclick="window.location.href='bookings.html'">
-            Find bookings
-        </button> 
+        <div style="display: grid; grid-template-columns: repeat(4, 200px); gap: 10px;">
+            <button onclick="window.location.href='database.html'">Look at database</button>
+            <button onclick="window.location.href='errors.html'">Look at errors</button>
+            <button onclick="window.location.href='logs.html'">Look at logs</button>
+            <button onclick="window.location.href='bookings.html'">Find bookings</button>
+
+            <button onclick="newDatabase()">Create new database</button>
+            <button onclick="emptyErrors()">Empty errors</button>
+            <button onclick="emptyLogs()">Empty logs</button>
+            <button onclick="emptyBookings()">Empty bookings</button>
+        </div>
         <br>
         <br>
         <label for="destinations">Travel from Madrid to -> </label>
@@ -94,14 +93,19 @@
         <button type="button" value="Submit" onclick="search()">Search</button>
 
         <br>
-         <!--https://www.youtube.com/watch?v=XmdOZ5NSqb8&list=PL-51WBLyFTg1l3K0aTH0uX6PzgaLfzJBK used as insperation-->
+        <!--https://www.youtube.com/watch?v=XmdOZ5NSqb8&list=PL-51WBLyFTg1l3K0aTH0uX6PzgaLfzJBK used as insperation-->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <style>
             th{ 
                 color:#fff;
-                    }
-        </style>
+            }
+            </style>
        
+       <br>
+        <button onclick="showWinnerExplanation()">
+            Why did this offer win?
+        </button>
+
         <table class="table table-striped">
             <tr class="bg-info">
                 <th>Rank</th>
@@ -123,8 +127,9 @@
             </tr>
             <tbody id="offersTable"></tbody>
         </table>
+    
 
-        <script src="newDB.js"></script>
+        <script src="DatabaseOperations.js"></script>
         <script src="showDB.js"></script>
         <script src="search.js"></script>
         <script src="moveSliders.js"></script>

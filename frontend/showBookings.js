@@ -3,7 +3,7 @@ const API_URL = window.location.hostname === "localhost"
     : "https://acit-4420-exam-2.vercel.app";
 async function showBooking() {
     let urlPost = API_URL;
-    urlPost += "/getOffers/";
+    urlPost += "/getBookings/";
 
     const firstName = document.getElementById("firstName").value;
     const lastName = document.getElementById("lastName").value;
@@ -19,6 +19,7 @@ async function showBooking() {
     }
     const responsePost  = await fetch(`${urlPost}?${params}`);
     const db = await responsePost.json();
+    
 
     const bookingsTable = document.getElementById("bookingsTable");
     bookingsTable.innerHTML = "";
@@ -29,6 +30,7 @@ async function showBooking() {
 
         row.innerHTML = `
             <td>${dbLine[0]}</td>
+            <td>${dbLine[15]}</td>
             <td>${dbLine[1]}</td>
             <td>${dbLine[2]}</td>
             <td>${dbLine[3]}</td>

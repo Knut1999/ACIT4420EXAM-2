@@ -25,4 +25,13 @@ async function booking(id) {
                 lastName: lastName,
             }),
     });
+
+    const result = await responsePost.json();
+
+    if (result === "No available seats") {
+        alert("Sorry, no available seats!");
+        return;
+    }
+
+    alert("Booking successful! Reference");
 }

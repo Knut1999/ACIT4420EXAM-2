@@ -1,6 +1,6 @@
 async function search() {
     let urlPost = API_URL;
-    urlPost += "/items/";
+    urlPost += "/search/";
 
     const weights = [
         document.getElementById("priceWeight").value,
@@ -57,4 +57,11 @@ async function search() {
         `;
     });
 
+}
+
+async function showWinnerExplanation() {
+    const response = await fetch(`${API_URL}/explaneWinner`);
+    const explanation = await response.text();
+
+    alert(explanation);
 }
