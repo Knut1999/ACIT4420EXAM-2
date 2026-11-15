@@ -1,6 +1,6 @@
-from logging.logging import Log
+from app_logging.logging import Log
 from database.booking.BookingDatabase import BookingDatabase
-from booking.bookingStandaloneFunctions import availableSeats
+from booking.bookingStandaloneFunctions import availableSeats, createBookingRef
 from database.offers.offersDatabase import OfferDatabase
 
 class BookingController:
@@ -19,17 +19,24 @@ class BookingController:
     def bookSeat(self, offerId:int, firstName:str, lastName:str):
         Log.logInsert("Book seat")
         #we use offer ids to book the offers
-        BookingDatabase.bookSeat(offerId, firstName, lastName)
+        bookingRef = createBookingRef(offerId, firstName, lastName)
+
+        BookingDatabase.bookSeat(offerId, firstName, lastName, bookingRef)
         OfferDatabase.reduceSeatFromId(offerId)
 
     def getAllBookings(self, firstName:str, lastName:str):
         Log.logInsert("Get all bookings")
         #we need offer ids to get the offer we have ordered
         allBookings = BookingDatabase.getBookingsFromName(firstName, lastName)
-        # print(allBookings)
         bookedOffers = []
-        for id in allBookings:
-            bookedOffers.append(OfferDatabase.getLineFromId(id)[0])
+        for booking in allBookings:
+            offerId = booking[1]
+            bookingRef = booking[4]
+            #make the tuple a list
+            offer = list(OfferDatabase.getLineFromId(offerId)[0])
+            #insert the booking ref
+            offer.append(bookingRef)
+            bookedOffers.append(offer)
 
         return bookedOffers
 
