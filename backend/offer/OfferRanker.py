@@ -1,4 +1,4 @@
-from offer.standaloneFunctions import findMinOrMaxRating, findMinOrMaxTransfers, timeStrToHour, timeDelta, findMinOrMaxWait,findMinOrMaxDuration,findMinOrMaxPrice,findMinOrMaxEnvironment
+from offer.standaloneFunctions import findMinOrMaxRating, findMinOrMaxTransfers, timeStrToHour, timeDelta, findMinOrMaxWait,findMinOrMaxDuration,findMinOrMaxPrice,findMinOrMaxEnvironment, explainValues
 from offer.offerClasses import Company, Offer
 
 class OfferRanker:
@@ -10,7 +10,7 @@ class OfferRanker:
         #we could filter by budget in fillAllOffers(), but for readability, we dont
         self.rankedOffersList:list[Offer] = self.fillAllOffers()
         #filtered by budget, so the list below does not have offer above budget
-        self.validRankedOffersList = self.filterByBudget(self.rankedOffersList)
+        self.validRankedOffersList:Offer = self.filterByBudget(self.rankedOffersList)
         # we need to find min and max values for later
         self.maxPrice = findMinOrMaxPrice(self.validRankedOffersList, True)
         self.maxDuration = findMinOrMaxDuration(self.validRankedOffersList, True)        
@@ -65,6 +65,9 @@ class OfferRanker:
     def getRankedOffers(self):
         return self.validRankedOffersList
 
+    def getExplentation(self):
+        return self.explaneWinner()
+
 
     def calculateScores(self):
         for offer in self.validRankedOffersList:
@@ -72,6 +75,36 @@ class OfferRanker:
             offerScore = self.score(offer)
             #put the score in the offer object
             offer.setScore(offerScore)
+
+    def explaneWinner(self):
+        highestScore = 0
+        winnerOffer = None
+        for offer in self.validRankedOffersList:
+            if(offer.score > highestScore):
+                highestScore = offer.score
+                winnerOffer = offer
+
+        if(winnerOffer == None):
+            return "Ingen vinner"
+
+        explenation = explainValues(
+            self.w_price,
+            self.w_duration,
+            self.w_time,
+            self.w_flexibility,
+            self.w_customerRating,
+            self.w_transfers,
+            self.w_environment,
+            self.P(winnerOffer),
+            self.D(winnerOffer),
+            self.T(winnerOffer),
+            self.F(winnerOffer),
+            self.R(winnerOffer),
+            self.TR(winnerOffer),
+            self.E(winnerOffer)
+        )
+
+        return explenation
 
     def score(self, offer:Offer) -> float: 
         # Score(j) = w_price P(j) + w_duration D(j) + w_time T(j) + w_flexibility F(j) + w_customerRating R(j) 

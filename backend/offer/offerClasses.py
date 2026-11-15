@@ -1,6 +1,4 @@
-from database.errors.ErrorDatabase import ErrorDatabase
 from database.offers.offersDatabase import OfferDatabase
-from logging.logging import LoggerDatabase
 
 class Company:
     def __init__(self, name:str):
@@ -9,9 +7,7 @@ class Company:
         self.companyRouts = []
 
     def generateOffers(self, destination:str) -> None:
-        #emty the error database before creating new offers, it will be filled with error from
-        # the new offers
-        ErrorDatabase.emptyErrorMessageDB()
+
         self.offers = [] #so we dont get double is we search in frontend many times
         self.companyRouts = self.getCompanyRouts(destination)
         for rout in self.companyRouts:

@@ -118,6 +118,7 @@ def findMinOrMaxPrice(validRankedOffersList:list[Offer], Max:bool):
     if(Max == False):
         return min(allPrices)
     return
+
 def findMinOrMaxDuration(validRankedOffersList:list[Offer], Max:bool):
     allDurations = []
     for offer in validRankedOffersList:
@@ -175,3 +176,59 @@ def normalizeWeights(weights):
     for i in range(7):
         weights[i] = weights[i] / total
     return weights
+
+#very simple function, but gives good explenation
+def explainValues(wP, wD, wT, wF, wR, wTR, wE, P, D, T, F, R, TR, E):
+    explanation = ""
+
+    if wP >= 0.2:
+        explanation += "Price was an important factor in the ranking. "
+    if wD >= 0.2:
+        explanation += "Journey duration was an important factor in the ranking. "
+    if wT >= 0.2:
+        explanation += "Departure time was an important factor in the ranking. "
+    if wF >= 0.2:
+        explanation += "Ticket flexibility was an important factor in the ranking. "
+    if wR >= 0.2:
+        explanation += "Customer rating was an important factor in the ranking. "
+    if wTR >= 0.2:
+        explanation += "Number of transfers was an important factor in the ranking. "
+    if wE >= 0.2:
+        explanation += "Environmental performance was an important factor in the ranking. "
+
+    if P < 0.3:
+        explanation += "Despite the price being relatively high compared to other offers, "
+    elif P > 0.7:
+        explanation += "The offer has a competitive price compared to other offers. "
+
+    if D < 0.3:
+        explanation += "The journey takes considerably longer than competing offers. "
+    elif D > 0.7:
+        explanation += "The journey has a relatively short duration. "
+
+    if T < 0.3:
+        explanation += "The departure time is far from the preferred departure time. "
+    elif T > 0.7:
+        explanation += "The departure time is close to the preferred departure time. "
+
+    if F < 0.3:
+        explanation += "The ticket has limited flexibility. "
+    elif F > 0.7:
+        explanation += "The ticket offers good flexibility. "
+
+    if R < 0.3:
+        explanation += "The customer rating is relatively low. "
+    elif R > 0.7:
+        explanation += "The offer has a high customer rating. "
+
+    if TR < 0.3:
+        explanation += "The journey requires many transfers. "
+    elif TR > 0.7:
+        explanation += "The journey has relatively few transfers. "
+
+    if E < 0.3:
+        explanation += "The environmental performance is relatively poor. "
+    elif E > 0.7:
+        explanation += "The offer has good environmental performance. "
+
+    return explanation
