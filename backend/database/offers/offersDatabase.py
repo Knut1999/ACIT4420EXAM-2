@@ -5,6 +5,18 @@ import psycopg
 
 class OfferDatabase:
     @staticmethod
+    def emptyOffersDB():
+        load_dotenv()
+        DATABASE_URL = os.getenv("DATABASE_URL")
+        con = psycopg.connect(DATABASE_URL)
+        cur = con.cursor()
+        cur.execute("""
+            TRUNCATE TABLE "routInfo" RESTART IDENTITY
+        """)
+        con.commit()
+        con.close()
+
+    @staticmethod
     def getCompanies():
         #https://docs.python.org/3/library/sqlite3.html?utm used this link as insperation
         load_dotenv()
