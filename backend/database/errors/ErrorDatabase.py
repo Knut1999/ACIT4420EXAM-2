@@ -33,7 +33,7 @@ class ErrorDatabase:
         con.close()
 
     @staticmethod
-    def getWholeErrors():
+    def getAllErrors():
         #https://docs.python.org/3/library/sqlite3.html?utm used this link as insperation
         load_dotenv()
         DATABASE_URL = os.getenv("DATABASE_URL")
