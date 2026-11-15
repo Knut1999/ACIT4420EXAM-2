@@ -35,7 +35,7 @@ class BookingDatabase:
         return False
 
     @staticmethod
-    def bookSeat(offerId:int, firstName:str, lastName:str):
+    def bookSeat(offerId:int, firstName:str, lastName:str, bookingRef:str):
         load_dotenv()
         DATABASE_URL = os.getenv("DATABASE_URL")
         con = psycopg.connect(DATABASE_URL)
@@ -43,9 +43,9 @@ class BookingDatabase:
         cur.execute("""
             INSERT INTO "bookings" 
             (
-            offer_id, first_name, last_name 
-            ) VALUES (%s, %s, %s)""",
-            (offerId, firstName, lastName)
+            offer_id, first_name, last_name, booking_ref
+            ) VALUES (%s, %s, %s, %s)""",
+            (offerId, firstName, lastName, bookingRef)
         )
 
         con.commit()
@@ -81,7 +81,7 @@ class BookingDatabase:
         con = psycopg.connect(DATABASE_URL)
         cur = con.cursor()
         res = cur.execute("""
-            SELECT offer_id 
+            SELECT * 
             FROM "bookings" 
             WHERE first_name = %s
             AND last_name = %s"""
@@ -93,7 +93,7 @@ class BookingDatabase:
         #had to do this to not get [(141,), (141,), (141,)] syntax
         routelist = []
         for r in route:
-            routelist.append(r[0])
+            routelist.append(r)
         
         return routelist
 
