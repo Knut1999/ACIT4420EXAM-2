@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from logging.logging import Log
+from app_logging.logging import Log
 from database.offers.offersDatabase import OfferDatabase
 from booking.BookingController import BookingController
 from offer.OfferController import OfferController
@@ -23,7 +23,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["GET", "POST"],
+    allow_methods=["GET", "POST", "DELETE"],
     allow_headers=["*"],
 )
 
@@ -48,7 +48,7 @@ class Item(BaseModel):
     budgetSum: float
     preferredDepartureTime: str
     weights: list[float]
-@app.post("/items/")
+@app.post("/search/")
 async def create_item(item: Item):
     offers = offerController.websiteInputs(item.destination,item.budgetSum, item.preferredDepartureTime, item.weights)
     result = []
@@ -56,6 +56,10 @@ async def create_item(item: Item):
         result.append(offer.__dict__)
 
     return result
+
+@app.get("/explaneWinner/")
+def read_root():
+    return offerController.offerRanker.explaneWinner()
 
 bookingController = BookingController()
 class Booking(BaseModel):
@@ -68,9 +72,10 @@ async def book_item(booking: Booking):
     
     return bookingRef
 
-@app.get("/getOffers")
+@app.get("/getBookings")
 def read_root(firstName, lastName):
     return bookingController.getAllBookings(firstName, lastName)
+
 
 
 class Booking(BaseModel):
@@ -79,7 +84,7 @@ class Booking(BaseModel):
     lastName: str
 @app.post("/unBook/")
 async def book_item(booking: Booking):
-    bookingRef = bookingController.cancelBooking(booking.offerId, booking.firstName, booking.lastName)
+    bookingController.cancelBooking(booking.offerId, booking.firstName, booking.lastName)
     return 
 
 @app.get("/getLog")
@@ -90,3 +95,12 @@ def read_root():
 def read_root():
     Log.emptyLogDb()
     return {"message": "Log deleted"}
+
+@app.delete("/deleteBookings")
+def read_root():
+    BookingDatabase.emptyBookingsDB()
+    return {"message": "Log deleted"}
+
+@app.get("/getAllErrors")
+def read_root():
+    return ErrorDatabase.getAllErrors()
