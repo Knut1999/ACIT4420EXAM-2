@@ -115,3 +115,19 @@ class BookingDatabase:
         con.close()
 
         return user_id
+
+    @staticmethod
+    def getAllBookings():
+        load_dotenv()
+        DATABASE_URL = os.getenv("DATABASE_URL")
+        con = psycopg.connect(DATABASE_URL)
+        cur = con.cursor()
+
+        res = cur.execute("""
+            SELECT * FROM "bookings"
+        """)
+
+        bookings = res.fetchall()
+        con.close()
+
+        return bookings
