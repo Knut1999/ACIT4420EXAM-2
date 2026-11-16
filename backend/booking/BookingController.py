@@ -13,10 +13,10 @@ class BookingController:
             return "No available seats"
 
         #creating booking
-        self.bookSeat(offerId, firstName, lastName)
+        self._bookSeat(offerId, firstName, lastName)
         Log.logInsert("Booking successful")
 
-    def bookSeat(self, offerId:int, firstName:str, lastName:str):
+    def _bookSeat(self, offerId:int, firstName:str, lastName:str):
         Log.logInsert("Book seat")
         #we use offer ids to book the offers
         bookingRef = createBookingRef(offerId, firstName, lastName)

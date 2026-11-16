@@ -9,12 +9,12 @@ class Company:
     def generateOffers(self, destination:str) -> None:
 
         self.offers = [] #so we dont get double is we search in frontend many times
-        self.companyRouts = self.getCompanyRouts(destination)
+        self.companyRouts = self._getCompanyRouts(destination) #find the destination
         for rout in self.companyRouts:
             offer = Offer(rout)
             self.offers.append(offer)
 
-    def getCompanyRouts(self, destination:str) -> list:
+    def _getCompanyRouts(self, destination:str) -> list:
         return OfferDatabase.getCompanyRouts(self.name, destination)
 
     def getOffers(self):

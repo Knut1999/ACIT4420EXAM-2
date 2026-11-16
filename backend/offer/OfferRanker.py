@@ -3,27 +3,27 @@ from offer.offerClasses import Company, Offer
 
 class OfferRanker:
     def __init__(self, companies:list[Company], destination:str, preferredDepartureTime:str, budget:float, weights:list[float]):
-        self.companies = companies
-        self.destination = destination
-        self.preferredDepartureTime = timeStrToHour(preferredDepartureTime)
-        self.budget = budget
-        #we could filter by budget in fillAllOffers(), but for readability, we dont
-        self.rankedOffersList:list[Offer] = self.fillAllOffers()
+        self._companies = companies
+        self._destination = destination
+        self._preferredDepartureTime = timeStrToHour(preferredDepartureTime)
+        self._budget = budget
+        #we could filter by budget in _fillAllOffers(), but for readability, we dont
+        self._rankedOffersList:list[Offer] = self._fillAllOffers()
         #filtered by budget, so the list below does not have offer above budget
-        self.validRankedOffersList:Offer = self.filterByBudget(self.rankedOffersList)
+        self._validRankedOffersList:Offer = self._filterByBudget(self._rankedOffersList)
         # we need to find min and max values for later
-        self.maxPrice = findMinOrMaxPrice(self.validRankedOffersList, True)
-        self.maxDuration = findMinOrMaxDuration(self.validRankedOffersList, True)        
-        self.minPrice = findMinOrMaxPrice(self.validRankedOffersList, False)
-        self.minDuration = findMinOrMaxDuration(self.validRankedOffersList, False)
-        self.maxWait = findMinOrMaxWait(self.validRankedOffersList, self.preferredDepartureTime, True)
-        self.minWait = findMinOrMaxWait(self.validRankedOffersList, self.preferredDepartureTime, False)
-        self.maxRating = findMinOrMaxRating(self.validRankedOffersList, True)
-        self.minRating = findMinOrMaxRating(self.validRankedOffersList, False)
-        self.maxTransfers = findMinOrMaxTransfers(self.validRankedOffersList, True)
-        self.minTransfers = findMinOrMaxTransfers(self.validRankedOffersList, False)
-        self.maxEnvironment = findMinOrMaxEnvironment(self.validRankedOffersList, True)
-        self.minEnvironment = findMinOrMaxEnvironment(self.validRankedOffersList, False)
+        self.maxPrice = findMinOrMaxPrice(self._validRankedOffersList, True)
+        self.maxDuration = findMinOrMaxDuration(self._validRankedOffersList, True)        
+        self.minPrice = findMinOrMaxPrice(self._validRankedOffersList, False)
+        self.minDuration = findMinOrMaxDuration(self._validRankedOffersList, False)
+        self.maxWait = findMinOrMaxWait(self._validRankedOffersList, self._preferredDepartureTime, True)
+        self.minWait = findMinOrMaxWait(self._validRankedOffersList, self._preferredDepartureTime, False)
+        self.maxRating = findMinOrMaxRating(self._validRankedOffersList, True)
+        self.minRating = findMinOrMaxRating(self._validRankedOffersList, False)
+        self.maxTransfers = findMinOrMaxTransfers(self._validRankedOffersList, True)
+        self.minTransfers = findMinOrMaxTransfers(self._validRankedOffersList, False)
+        self.maxEnvironment = findMinOrMaxEnvironment(self._validRankedOffersList, True)
+        self.minEnvironment = findMinOrMaxEnvironment(self._validRankedOffersList, False)
 
         self.minWait
         #defult values
@@ -34,54 +34,48 @@ class OfferRanker:
         self.w_customerRating = weights[4]
         self.w_transfers = weights[5]
         self.w_environment = weights[6]
-        self.calculateScores()
-        self.sortOffers()
+        self._calculateScores()
+        self._sortOffers()
 
-    def filterByBudget(self, rankedOffersList):
+    def _filterByBudget(self, _rankedOffersList):
         updatetList = []
-        for offer in rankedOffersList:
-            if offer.price <= self.budget:
+        for offer in _rankedOffersList:
+            if offer.price <= self._budget:
                 updatetList.append(offer)
         return updatetList
 
-    def sortOffers(self):
+    def _sortOffers(self):
         #used example: sorted(student_tuples, key=lambda student: student[2])   # sort by age
         #from this link: https://docs.python.org/3/howto/sorting.html
-        self.validRankedOffersList = sorted(self.validRankedOffersList, key=lambda offer: offer.score, reverse=True)
+        self._validRankedOffersList = sorted(self._validRankedOffersList, key=lambda offer: offer.score, reverse=True)
 
-    def changeWeights(self, price, duration, time, flexibility):
-        self.w_price = price
-        self.w_duration = duration
-        self.w_time = time
-        self.w_flexibility = flexibility
-        self.calculateScores()
 
-    def fillAllOffers(self):
+    def _fillAllOffers(self):
         allOffers = []
-        for company in self.companies:
+        for company in self._companies:
             allOffers.extend(company.getOffers())
         return allOffers
 
     def getRankedOffers(self):
-        return self.validRankedOffersList
+        return self._validRankedOffersList
 
     def getExplentation(self):
         return self.explaneWinner()
 
 
-    def calculateScores(self):
-        for offer in self.validRankedOffersList:
-            #find the score
-            offerScore = self.score(offer)
-            #put the score in the offer object
+    def _calculateScores(self):
+        for offer in self._validRankedOffersList:
+            #find the _score
+            offerScore = self._score(offer)
+            #put the _score in the offer object
             offer.setScore(offerScore)
 
     def explaneWinner(self):
         highestScore = 0
         winnerOffer = None
-        for offer in self.validRankedOffersList:
-            if(offer.score > highestScore):
-                highestScore = offer.score
+        for offer in self._validRankedOffersList:
+            if(offer._score > highestScore):
+                highestScore = offer._score
                 winnerOffer = offer
 
         if(winnerOffer == None):
@@ -95,58 +89,58 @@ class OfferRanker:
             self.w_customerRating,
             self.w_transfers,
             self.w_environment,
-            self.P(winnerOffer),
-            self.D(winnerOffer),
-            self.T(winnerOffer),
-            self.F(winnerOffer),
-            self.R(winnerOffer),
-            self.TR(winnerOffer),
-            self.E(winnerOffer)
+            self._P(winnerOffer),
+            self._D(winnerOffer),
+            self._T(winnerOffer),
+            self._F(winnerOffer),
+            self._R(winnerOffer),
+            self._TR(winnerOffer),
+            self._E(winnerOffer)
         )
 
         return explenation
 
-    def score(self, offer:Offer) -> float: 
+    def _score(self, offer:Offer) -> float: 
         # Score(j) = w_price P(j) + w_duration D(j) + w_time T(j) + w_flexibility F(j) + w_customerRating R(j) 
         # + w_transfers * TR(j)
-        return (self.w_price * self.P(offer) + 
-                self.w_duration * self.D(offer) + 
-                self.w_time * self.T(offer) + 
-                self.w_flexibility * self.F(offer) +
-                self.w_customerRating * self.R(offer) +
-                self.w_transfers * self.TR(offer) +
-                self.w_environment * self.E(offer))
+        return (self.w_price * self._P(offer) + 
+                self.w_duration * self._D(offer) + 
+                self.w_time * self._T(offer) + 
+                self.w_flexibility * self._F(offer) +
+                self.w_customerRating * self._R(offer) +
+                self.w_transfers * self._TR(offer) +
+                self.w_environment * self._E(offer))
 
-    def P(self, offer:Offer):
+    def _P(self, offer:Offer):
         if (self.maxPrice == self.minPrice):
             return 1.0
         return ((self.maxPrice - offer.price) / (self.maxPrice - self.minPrice))
-    def D(self, offer:Offer):
+    def _D(self, offer:Offer):
         if(self.maxDuration == self.minDuration):
             return 1.0
         return ((self.maxDuration - offer.duration) / (self.maxDuration - self.minDuration)) 
-    def T(self, offer:Offer):
+    def _T(self, offer:Offer):
         offerDepartureTime = timeStrToHour(offer.departureTime)
-        delta = timeDelta(offerDepartureTime, self.preferredDepartureTime)
+        delta = timeDelta(offerDepartureTime, self._preferredDepartureTime)
         if(self.maxWait == self.minWait):
             return 1
         return ((self.maxWait - delta) / (self.maxWait - self.minWait))
-    def F(self, offer:Offer):
+    def _F(self, offer:Offer):
         sum = 0
         if(offer.refundability == "LIMITED"): sum += 0.25
         elif(offer.refundability == "FULL"): sum += 0.5
         if(offer.changeability == "LIMITED"): sum += 0.25
         elif(offer.changeability == "FULL"): sum += 0.5
         return sum
-    def R(self, offer:Offer):
+    def _R(self, offer:Offer):
         if (self.maxRating == self.minRating):
             return 1.0
         return (offer.customerRating - self.minRating) / (self.maxRating - self.minRating)
-    def TR(self, offer:Offer):
+    def _TR(self, offer:Offer):
         if (self.maxTransfers == self.minTransfers):
             return 1.0
         return (self.maxTransfers - offer.transfers) / (self.maxTransfers - self.minTransfers)
-    def E(self, offer:Offer):
+    def _E(self, offer:Offer):
         if (self.maxEnvironment == self.minEnvironment):
             return 1.0
         return (offer.environmentalMeasure - self.minEnvironment) / (self.maxEnvironment - self.minEnvironment)
