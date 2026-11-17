@@ -104,3 +104,7 @@ def read_root():
 @app.get("/getAllErrors")
 def read_root():
     return ErrorDatabase.getAllErrors()
+
+@app.delete("/deleteErrors")
+def read_root():
+    return ErrorDatabase.emptyErrorMessageDB()
