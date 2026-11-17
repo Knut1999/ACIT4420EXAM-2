@@ -34,9 +34,7 @@ class OfferController:
     def _generateOffers(self):
         Log.logInsert("generate offers")
         
-        #emty the error database before creating new offers, it will be filled with error from
         # the new offers
-        ErrorDatabase.emptyErrorMessageDB()
         for company in self._companies:
             company.generateOffers(self._destination)
             validateOffers(company) #removes invalid offers, puts them in invalid_records.csv
