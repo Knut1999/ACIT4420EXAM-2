@@ -74,8 +74,8 @@ class OfferRanker:
         highestScore = 0
         winnerOffer = None
         for offer in self._validRankedOffersList:
-            if(offer._score > highestScore):
-                highestScore = offer._score
+            if(offer.score > highestScore):
+                highestScore = offer.score
                 winnerOffer = offer
 
         if(winnerOffer == None):
