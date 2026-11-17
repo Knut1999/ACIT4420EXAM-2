@@ -15,9 +15,9 @@ async function showErrors() {
         const row = dbTable.insertRow();
 
         row.innerHTML = `
-            <td>${dbLine[0]}</td>
             <td>${dbLine[1]}</td>
             <td>${dbLine[2]}</td>
+            <td>${dbLine[3]}</td>
         `;
     });
 }
