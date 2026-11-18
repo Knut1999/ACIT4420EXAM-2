@@ -55,3 +55,23 @@ input[type="range"] {
     background-color: #e2f3f7;
 }
 
+
+table {
+    width: 100%;
+    max-width: 100%;
+    table-layout: auto;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
+    overflow-wrap: break-word;
+    font-size: clamp(11px, 1vw, 15px);
+}
+
+@media (max-width: 700px) {
+    th, td {
+        padding: 4px;
+        font-size: 11px;
+    }
+}

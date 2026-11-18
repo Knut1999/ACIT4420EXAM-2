@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <!--https://www.youtube.com/watch?v=XmdOZ5NSqb8&list=PL-51WBLyFTg1l3K0aTH0uX6PzgaLfzJBK used as insperation-->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <link rel="stylesheet" href="database.css">
+        <link rel="stylesheet" href="index.css">
     </head>
     <body>
         <h1>BUS BIDDER</h1>
@@ -105,28 +105,31 @@
         <button onclick="showWinnerExplanation()">
             Why did this offer win?
         </button>
-
-        <table class="table table-striped">
-            <tr class="bg-info">
-                <th>Rank</th>
-                <th>Company</th>
-                <th>Destination</th>
-                <th>Travel date</th>
-                <th>Departure</th>
-                <th>Duration</th>
-                <th>Arrival</th>
-                <th>Price</th>
-                <th>Transfers</th>
-                <th>Luggage</th>
-                <th>Changeability</th>
-                <th>Refundability</th>
-                <th>Available seats</th>
-                <th>Customer rating</th>
-                <th>Environmental measure</th>
-                <th>Score</th>
-            </tr>
-            <tbody id="offersTable"></tbody>
-        </table>
+        <div class="table-container">
+            <table class="table table-striped">
+                <thead>
+                    <tr class="bg-info">
+                        <th>Rank</th>
+                        <th>Company</th>
+                        <th>Destination</th>
+                        <th>Travel date</th>
+                        <th>Departure</th>
+                        <th>Duration</th>
+                        <th>Arrival</th>
+                        <th>Price</th>
+                        <th>Transfers</th>
+                        <th>Luggage</th>
+                        <th>Changeability</th>
+                        <th>Refundability</th>
+                        <th>Available seats</th>
+                        <th>Customer rating</th>
+                        <th>Environmental measure</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody id="offersTable"></tbody>
+            </table>
+        </div>
     
 
         <script src="DatabaseOperations.js"></script>
