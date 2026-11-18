@@ -34,3 +34,96 @@
         font-size: 6px;
     }
 }
+
+.weight-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 18px;
+}
+
+.weight-container label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.weight-container input[type="range"] {
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 10px;
+    background: #dce3ec;
+    outline: none;
+    cursor: pointer;
+    margin: 6px 0 10px;
+}
+
+.weight-container input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #2878d0;
+    border: 3px solid white;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+
+.weight-container input[type="range"]::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #2878d0;
+    border: 3px solid white;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+
+.weight-container input[type="range"]:hover {
+    filter: brightness(0.95);
+}
+
+.preferences-panel {
+    max-width: 650px;
+    margin: 15px 0;
+    padding: 15px 20px;
+    background: #fff;
+    border: 1px solid #e1e6ed;
+    border-radius: 10px;
+}
+
+.preferences-panel h3 {
+    font-size: 17px;
+    margin: 0 0 12px;
+}
+
+.preferences-panel p {
+    font-size: 12px;
+    margin: 0 0 15px;
+}
+
+.preferences-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 25px;
+}
+
+.weight-container {
+    margin: 0;
+}
+
+.weight-container label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.weight-container input[type="range"] {
+    width: 100%;
+    height: 5px;
+    margin: 0;
+    accent-color: #2878d0;
+    cursor: pointer;
+}

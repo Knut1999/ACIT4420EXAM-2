@@ -67,27 +67,46 @@
 
         <label for="preferredDepartureTime">Choose departure time</label>
         <input type="time" id="preferredDepartureTime" name="preferredDepartureTime" value="12:50">
+        <br>
+        <section class="preferences-panel" aria-labelledby="weight-preferences-heading">
+            <h3 id="weight-preferences-heading">Weight preferences</h3>
+            <div class="preferences-grid">
+                <div class="weight-container">
+                    <label for="priceWeight">Price</label>
+                    <input type="range" id="priceWeight" min="0" max="100" value="80">
+                </div>
 
-        <label for="priceWeight">Price</label>
-        <input type="range" id="priceWeight" min="0" max="100" value="80">
+                <div class="weight-container">
+                    <label for="durationWeight">Duration</label>
+                    <input type="range" id="durationWeight" min="0" max="100" value="10">
+                </div>
 
-        <label for="durationWeight">Duration</label>
-        <input type="range" id="durationWeight" min="0" max="100" value="10">
+                <div class="weight-container">
+                    <label for="timeWeight">Departure time</label>
+                    <input type="range" id="timeWeight" min="0" max="100" value="30">
+                </div>
 
-        <label for="timeWeight">Departure time</label>
-        <input type="range" id="timeWeight" min="0" max="100" value="30">
+                <div class="weight-container">
+                    <label for="flexibilityWeight">Flexibility</label>
+                    <input type="range" id="flexibilityWeight" min="0" max="100" value="10">
+                </div>
 
-        <label for="flexibilityWeight">Flexibility</label>
-        <input type="range" id="flexibilityWeight" min="0" max="100" value="10">
+                <div class="weight-container">
+                    <label for="ratingWeight">Customer rating</label>
+                    <input type="range" id="ratingWeight" min="0" max="100" value="10">
+                </div>
 
-        <label for="ratingWeight">Customer rating</label>
-        <input type="range" id="ratingWeight" min="0" max="100" value="10">
+                <div class="weight-container">
+                    <label for="transfersWeight">Number of transfers</label>
+                    <input type="range" id="transfersWeight" min="0" max="100" value="10">
+                </div>
 
-        <label for="transfersWeight">Number of transfers</label>
-        <input type="range" id="transfersWeight" min="0" max="100" value="10">
-
-        <label for="environmentWeight">Environmental impact</label>
-        <input type="range" id="environmentWeight" min="0" max="100" value="10">
+                <div class="weight-container">
+                    <label for="environmentWeight">Environmental impact</label>
+                    <input type="range" id="environmentWeight" min="0" max="100" value="10">
+                </div>
+            </div>
+        </section>
 
         <br>
         <button type="button" value="Submit" onclick="search()">Search</button>
