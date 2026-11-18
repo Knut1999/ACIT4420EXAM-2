@@ -1,22 +1,18 @@
-"""
-Automated unit tests for BusBidder
-"""
-"""
-Automated unit tests for BusBidder
-"""
 import sys
 from pathlib import Path
 from types import SimpleNamespace
 
-from offer.offerClasses import Offer, Company
 
 # Add the backend directory to Python path when the test is run directly.
 BACKEND_PATH = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(BACKEND_PATH))
 
+from offer.offerClasses import Offer, Company
 import pytest
 
 from offer.OfferRanker import OfferRanker
+from validation.standaloneFunctionsValidation import validateNonNegativeInteger
+from validation.OfferValidationError import InvalidIntegerError
 from offer.standaloneFunctions import normalizeWeights
 from validation.standaloneFunctionsValidation import (
     validateCustomerRating,
@@ -115,3 +111,25 @@ def test_offer_over_budget_is_filtered_and_cheapest_ranks_first():
     assert expensive not in ranked
     assert ranked[0] is cheap
     assert ranked[1] is medium
+
+
+def test_duration_above_24_is_rejected():
+    with pytest.raises(InvalidPriceOrDurationError):
+        validateNonNegativeFloat(create_valid_offer(duration=25))
+
+
+def test_price_above_200_is_rejected():
+    with pytest.raises(InvalidPriceOrDurationError):
+        validateNonNegativeFloat(create_valid_offer(price=201))
+
+
+def test_transfers_above_10_are_rejected():
+    with pytest.raises(InvalidIntegerError):
+        validateNonNegativeInteger(create_valid_offer(transfers=11))
+
+
+def test_valid_arrival_time_is_accepted():
+    validateDepartureAndArrival(
+        create_valid_offer(arrivalTime="15:30")
+    )
+
