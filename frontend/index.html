@@ -25,48 +25,58 @@
             <button onclick="emptyBookings()">Empty bookings</button>
         </div>
         <br>
-        <br>
-        <label for="destinations">Travel from Madrid to -> </label>
-        <select name="destinations" id="destinations">
-            <option value="Alicante">Alicante</option>
-            <option value="Barcelona">Barcelona</option>
-            <option value="Bilbao">Bilbao</option>
-            <option value="Cadiz">Cadiz</option>
-            <option value="Cordoba">Cordoba</option>
-            <option value="Granada">Granada</option>
-            <option value="Malaga">Malaga</option>
-            <option value="Murcia">Murcia</option>
-            <option value="Salamanca">Salamanca</option>
-            <option value="San Sebastian">San Sebastian</option>
-            <option value="Santiago de Compostela">Santiago de Compostela</option>
-            <option value="Seville">Seville</option>
-            <option value="Toledo">Toledo</option>
-            <option value="Valencia">Valencia</option>
-            <option value="Zaragoza">Zaragoza</option>
-        </select>
+        <section class="search-details">
+            <div class="search-field">
+                <label for="destinations">Travel from Madrid to -></label>
+                <select name="destinations" id="destinations">
+                    <option value="Alicante">Alicante</option>
+                    <option value="Barcelona">Barcelona</option>
+                    <option value="Bilbao">Bilbao</option>
+                    <option value="Cadiz">Cadiz</option>
+                    <option value="Cordoba">Cordoba</option>
+                    <option value="Granada">Granada</option>
+                    <option value="Malaga">Malaga</option>
+                    <option value="Murcia">Murcia</option>
+                    <option value="Salamanca">Salamanca</option>
+                    <option value="San Sebastian">San Sebastian</option>
+                    <option value="Santiago de Compostela">Santiago de Compostela</option>
+                    <option value="Seville">Seville</option>
+                    <option value="Toledo">Toledo</option>
+                    <option value="Valencia">Valencia</option>
+                    <option value="Zaragoza">Zaragoza</option>
+                </select>
+            </div>
 
-        <br><br>
-        <label for="firstName">First name:</label>
-        <input type="text" id="firstName" name="firstName" placeholder="Enter first name" value="Ola">
+            <div class="search-field">
+                <label for="firstName">First name:</label>
+                <input type="text" id="firstName" name="firstName" placeholder="Enter first name" value="Ola">
+            </div>
 
-        <label for="lastName">Last name:</label>
-        <input type="text" id="lastName" name="lastName" placeholder="Enter last name" value="Nordmann">
+            <div class="search-field">
+                <label for="lastName">Last name:</label>
+                <input type="text" id="lastName" name="lastName" placeholder="Enter last name" value="Nordmann">
+            </div>
 
-        <br><br>
+            <div class="search-field">
+                <label for="budgetType">Choose traveller profile</label>
+                <select name="budgetType" id="budgetType" onchange="moveSliders()">
+                    <option value="Budget traveller">Budget traveller</option>
+                    <option value="Business traveller">Business traveller</option>
+                    <option value="Flexibility-focused tourist">Flexibility-focused tourist</option>
+                    <option value="Environment-focused traveller">Environment-focused traveller</option>
+                </select>
+            </div>
 
-        <label for="budgetType">Choose traveller profile</label>
-        <select name="budgetType" id="budgetType" onchange="moveSliders()">
-            <option value="Budget traveller">Budget traveller</option>
-            <option value="Business traveller">Business traveller</option>
-            <option value="Flexibility-focused tourist">Flexibility-focused tourist</option>
-            <option value="Environment-focused traveller">Environment-focused traveller</option>
-        </select>
-        
-        <label for="budgetSum">Budget (€):</label>
-        <input type="number" id="budgetSum" name="budgetSum" value="40"><br><br>
+            <div class="search-field">
+                <label for="budgetSum">Budget (€):</label>
+                <input type="number" id="budgetSum" name="budgetSum" value="40">
+            </div>
 
-        <label for="preferredDepartureTime">Choose departure time</label>
-        <input type="time" id="preferredDepartureTime" name="preferredDepartureTime" value="12:50">
+            <div class="search-field">
+                <label for="preferredDepartureTime">Choose departure time</label>
+                <input type="time" id="preferredDepartureTime" name="preferredDepartureTime" value="12:50">
+            </div>
+        </section>
         <br>
         <section class="preferences-panel" aria-labelledby="weight-preferences-heading">
             <h3 id="weight-preferences-heading">Weight preferences</h3>
