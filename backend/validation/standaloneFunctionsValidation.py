@@ -26,13 +26,7 @@ def validateDate(offer):
         dateString = offer.travelDate
         parsedDate = datetime.strptime(dateString, "%Y-%m-%d")
         travelDate = parsedDate.date()
-        # print(type(travelDate), travelDate)
-        #not check if traveldate is in the past because then it heppens no 
-        #dates are old because noonre refreshed database
-        # if travelDate < date.today():
-        #     raise InvalidDateError(
-        #         "Travel date is in the past"
-        #     )
+
     except ValueError:
         raise InvalidDateError(
             "Invalid travel date"
@@ -40,33 +34,49 @@ def validateDate(offer):
 
 def validateDepartureAndArrival(offer: Offer):
     for stringType, time in [("Departure",offer.departureTime), ("Arrival", offer.arrivalTime)]:
-        #regex, not totally nessecarry, but makes code more compact
-        if not re.fullmatch(r"([01]\d|2[0-3]):[0-5]\d", time):
+        try:
+            #regex, not totally nessecarry, but makes code more compact
+            if not re.fullmatch(r"([01]\d|2[0-3]):[0-5]\d", time):
+                raise InvalidTimeError(
+                    f"Invalid {stringType} time"
+                )
+        except (TypeError, ValueError):
             raise InvalidTimeError(
-                f"Invalid {stringType} time"
+                f"TypeError or ValueError for {stringType} time"
             )
-
-        
+       
 
 def validateNonNegativeFloat(offer:Offer):
     #both duration and price uses same function due to both beeing float above 0   
     for stringType, value in [("Duration",offer.duration), ("Price",offer.price)]:
         try:
             number = float(value)
+            #check for to high values
+            if stringType == "Duration" and number > 24:
+                raise InvalidPriceOrDurationError(f"Invalid, {stringType} cant that high : {number}")
+            elif stringType == "Price" and number > 200:
+                raise InvalidPriceOrDurationError(f"Invalid, {stringType} cant that high : {number}")
+                
+            #check for to low values
             if number <= 0:
                 raise InvalidPriceOrDurationError(f"Invalid, {stringType} cant be less or equal 0 -> : {value}")
-        except ValueError:
+        except (ValueError, TypeError):
             raise InvalidPriceOrDurationError(f"Invalid, {stringType} cant converted to float ->  value is: {value}")
 
 def validateNonNegativeInteger(offer: Offer):
-    for stringType, value in [("Luggage allowance",offer.luggageAllowance), ("Available seats",offer.availableSeats), ("Environmental measure", offer.environmentalMeasure)]:
+    for stringType, value in [("Transfers",offer.transfers), ("Luggage allowance",offer.luggageAllowance), ("Available seats",offer.availableSeats), ("Environmental measure", offer.environmentalMeasure)]:
         try:
             integer = int(value)
+            if(stringType == "Transfers" and not 0 <= integer <= 10):
+                raise InvalidIntegerError(
+                    f"{stringType} Too many transfers"
+                )
+                
             if integer < 0:
                 raise InvalidIntegerError(
                     f"{stringType} cant be lower than 0"
                 )
-        except ValueError:
+        except (ValueError, TypeError):
             raise InvalidIntegerError(
                 f"{stringType} cant converted to integer"
             )
@@ -78,7 +88,7 @@ def validateCustomerRating(offer: Offer):
             raise InvalidRatingError(
                 "Invalid customer rating, must be between 0 and 5"
             )
-    except ValueError:
+    except (TypeError, ValueError):
         raise InvalidRatingError(
             "Invalid customer rating, cant be converted to float"
         )

@@ -72,6 +72,12 @@ def validateOffers(company:Company):
         except OfferValidationError as exception:
             errorType.append(type(exception).__name__)
             error.append(str(exception))
+        #adding a cap for price
+        try:
+            validateCustomerRating(offer)
+        except OfferValidationError as exception:
+            errorType.append(type(exception).__name__)
+            error.append(str(exception))
 
         if(errorType):
             print(offer.companyName, offer.destination, errorType, error)
