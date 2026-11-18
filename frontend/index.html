@@ -48,6 +48,16 @@
             </div>
 
             <div class="search-field">
+                <label for="budgetType">Choose traveller profile</label>
+                <select name="budgetType" id="budgetType" onchange="moveSliders()">
+                    <option value="Budget traveller">Budget traveller</option>
+                    <option value="Business traveller">Business traveller</option>
+                    <option value="Flexibility-focused tourist">Flexibility-focused tourist</option>
+                    <option value="Environment-focused traveller">Environment-focused traveller</option>
+                </select>
+            </div>
+
+            <div class="search-field">
                 <label for="firstName">First name:</label>
                 <input type="text" id="firstName" name="firstName" placeholder="Enter first name" value="Ola">
             </div>
@@ -57,15 +67,6 @@
                 <input type="text" id="lastName" name="lastName" placeholder="Enter last name" value="Nordmann">
             </div>
 
-            <div class="search-field">
-                <label for="budgetType">Choose traveller profile</label>
-                <select name="budgetType" id="budgetType" onchange="moveSliders()">
-                    <option value="Budget traveller">Budget traveller</option>
-                    <option value="Business traveller">Business traveller</option>
-                    <option value="Flexibility-focused tourist">Flexibility-focused tourist</option>
-                    <option value="Environment-focused traveller">Environment-focused traveller</option>
-                </select>
-            </div>
 
             <div class="search-field">
                 <label for="budgetSum">Budget (€):</label>
