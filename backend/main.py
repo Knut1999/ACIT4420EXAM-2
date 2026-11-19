@@ -14,7 +14,6 @@ app = FastAPI()
 offerController = OfferController()
 
 origins = [
-    "https://busbidder.knutonsoyen.no",
     "https://acit4420exam-2-frontend.vercel.app",
     "http://localhost:5000",
 ]

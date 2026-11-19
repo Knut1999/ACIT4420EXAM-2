@@ -1,6 +1,8 @@
 from offer.OfferController import OfferController
-#make sure offer db is not empty
+from database.offers.offersFill_db import offersFill_db
+
 def test_websiteInputs():
+    offersFill_db()
     controller = OfferController()
     weights = [0.1667, 0.1667, 0.1667, 0.1667, 0.1667, 0.1667, 0.342]
 
