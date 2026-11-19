@@ -5,6 +5,23 @@ BusBidder is a web application for comparing bus travel offers to destinations i
 
 **Development history:** This submission represents a second attempt at developing BusBidder. The Git commit history from my initial attempt is included as a text file (`CommitHistoryfromPreviousProject.txt`) to document the development process leading up to the current implementation.
 
+## Class diagram
+
+The class diagram illustrates the main classes and their relationships. Main handles API requests and connects the frontend to OfferController and BookingController.
+
+OfferController manages offer generation and ranking through Company, Offer and OfferRanker. Companies retrieve route information from OfferDatabase, while OfferRanker validates, filters and scores the offers.
+
+BookingController handles bookings and cancellations through BookingDatabase. Separate database classes manage offers, bookings, errors and logs.
+
+The diagram also shows that Main accesses some database functions directly for administrative operations, such as retrieving and deleting records.
+
+The complete class diagram is shown below.
+
+![Class diagram](forReadMe/ClassDiagram.png)
+
+Or as pdf:
+![View class diagram](forReadMe/ClassDiagram.pdf)
+
 ## Features
 
 - Search for bus offers to Spanish destinations from Madrid.
@@ -141,4 +158,4 @@ uv run pytest
 ```
 
 When all tests pass, the output should look similar to the example below:
-![alt text](pictures/tests.png)
+![alt text](forReadMe/tests.png)
