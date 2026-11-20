@@ -57,13 +57,13 @@ async function search() {
         `;
 
         row.title = `
-        Price: ${offer.priceScore.toFixed(3)}
-        Duration: ${offer.durationScore.toFixed(3)}
-        Departure time: ${offer.timeScore.toFixed(3)}
-        Flexibility: ${offer.flexibilityScore.toFixed(3)}
-        Rating: ${offer.ratingScore.toFixed(3)}
-        Transfers: ${offer.transfersScore.toFixed(3)}
-        Environment: ${offer.environmentScore.toFixed(3)}
+        Price: ${offer.priceScore?.toFixed(3) ?? "N/A"}
+        Duration: ${offer.durationScore?.toFixed(3) ?? "N/A"}
+        Departure time: ${offer.timeScore?.toFixed(3) ?? "N/A"}
+        Flexibility: ${offer.flexibilityScore?.toFixed(3) ?? "N/A"}
+        Rating: ${offer.ratingScore?.toFixed(3) ?? "N/A"}
+        Transfers: ${offer.transfersScore?.toFixed(3) ?? "N/A"}
+        Environment: ${offer.environmentScore?.toFixed(3) ?? "N/A"}
         `;
     });
 
