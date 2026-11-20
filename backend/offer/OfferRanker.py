@@ -66,9 +66,17 @@ class OfferRanker:
     def _calculateScores(self):
         for offer in self._validRankedOffersList:
             #find the _score
-            offerScore = self._score(offer)
             #put the _score in the offer object
-            offer.setScore(offerScore)
+            offer.setScore(
+                self._score(offer),
+                self._P(offer),
+                self._D(offer),
+                self._T(offer),
+                self._F(offer),
+                self._R(offer),
+                self._TR(offer),
+                self._E(offer)
+            )
 
     def explaneWinner(self):
         highestScore = 0

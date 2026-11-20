@@ -40,6 +40,30 @@ class Offer:
         self.environmentalMeasure = info[14]
 
         self.score = None
+        self.priceScore = None
+        self.durationScore = None
+        self.timeScore = None
+        self.flexibilityScore = None
+        self.ratingScore = None
+        self.transfersScore = None
+        self.environmentScore = None
 
-    def setScore(self, score) -> None:
+    def setScore(
+        self,
+        score: float,
+        priceScore: float,
+        durationScore: float,
+        timeScore: float,
+        flexibilityScore: float,
+        ratingScore: float,
+        transfersScore: float,
+        environmentScore: float
+        ):
         self.score = score
+        self.priceScore = priceScore
+        self.durationScore = durationScore
+        self.timeScore = timeScore
+        self.flexibilityScore = flexibilityScore
+        self.ratingScore = ratingScore
+        self.transfersScore = transfersScore
+        self.environmentScore = environmentScore
