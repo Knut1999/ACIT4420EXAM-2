@@ -1,3 +1,5 @@
+import secrets
+
 from database.offers.offersDatabase import OfferDatabase
 
 def availableSeats(id) -> bool:
@@ -11,6 +13,8 @@ def availableSeats(id) -> bool:
 def createBookingRef(offerId: int, firstName: str, lastName: str):
     offerRef = f"{firstName}-{lastName}-"
     offerRef += getOfferInfo(offerId)
+    uniqueNumber = secrets.randbelow(90_000_000) + 10_000_000
+    offerRef += f"-{uniqueNumber}"
     return offerRef
     
 
