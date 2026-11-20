@@ -55,6 +55,16 @@ async function search() {
         <td>${offer.environmentalMeasure}</td>
         <td>${offer.score.toFixed(3)}</td>
         `;
+
+        row.title = `
+        Price: ${offer.priceScore.toFixed(3)}
+        Duration: ${offer.durationScore.toFixed(3)}
+        Departure time: ${offer.timeScore.toFixed(3)}
+        Flexibility: ${offer.flexibilityScore.toFixed(3)}
+        Rating: ${offer.ratingScore.toFixed(3)}
+        Transfers: ${offer.transfersScore.toFixed(3)}
+        Environment: ${offer.environmentScore.toFixed(3)}
+        `;
     });
 
 }
